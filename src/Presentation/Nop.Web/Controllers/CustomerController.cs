@@ -564,9 +564,9 @@ namespace Nop.Web.Controllers
         [HttpsRequirement(SslRequirement.Yes)]
         //available even when navigation is not allowed
         [CheckAccessPublicStore(true)]
-        public virtual IActionResult PasswordRecoveryConfirm(string token, string email)
+        public virtual IActionResult PasswordRecoveryConfirm(string token, Guid guid)
         {
-            var customer = _customerService.GetCustomerByEmail(email);
+            var customer = _customerService.GetCustomerByGuid(guid);
             if (customer == null)
                 return RedirectToRoute("Homepage");
 
@@ -603,9 +603,9 @@ namespace Nop.Web.Controllers
         [FormValueRequired("set-password")]
         //available even when navigation is not allowed
         [CheckAccessPublicStore(true)]
-        public virtual IActionResult PasswordRecoveryConfirmPOST(string token, string email, PasswordRecoveryConfirmModel model)
+        public virtual IActionResult PasswordRecoveryConfirmPOST(string token, Guid guid, PasswordRecoveryConfirmModel model)
         {
-            var customer = _customerService.GetCustomerByEmail(email);
+            var customer = _customerService.GetCustomerByGuid(guid);
             if (customer == null)
                 return RedirectToRoute("Homepage");
 
@@ -627,7 +627,7 @@ namespace Nop.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                var response = _customerRegistrationService.ChangePassword(new ChangePasswordRequest(email,
+                var response = _customerRegistrationService.ChangePassword(new ChangePasswordRequest(customer.Email,
                     false, _customerSettings.DefaultPasswordFormat, model.NewPassword));
                 if (response.Success)
                 {
@@ -1003,9 +1003,9 @@ namespace Nop.Web.Controllers
         [HttpsRequirement(SslRequirement.Yes)]
         //available even when navigation is not allowed
         [CheckAccessPublicStore(true)]
-        public virtual IActionResult AccountActivation(string token, string email)
+        public virtual IActionResult AccountActivation(string token, Guid guid)
         {
-            var customer = _customerService.GetCustomerByEmail(email);
+            var customer = _customerService.GetCustomerByGuid(guid);
             if (customer == null)
                 return RedirectToRoute("Homepage");
 
@@ -1250,9 +1250,9 @@ namespace Nop.Web.Controllers
         [HttpsRequirement(SslRequirement.Yes)]
         //available even when navigation is not allowed
         [CheckAccessPublicStore(true)]
-        public virtual IActionResult EmailRevalidation(string token, string email)
+        public virtual IActionResult EmailRevalidation(string token, Guid guid)
         {
-            var customer = _customerService.GetCustomerByEmail(email);
+            var customer = _customerService.GetCustomerByGuid(guid);
             if (customer == null)
                 return RedirectToRoute("Homepage");
 
